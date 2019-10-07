@@ -1,15 +1,32 @@
-<ion-menu [content]="content" type="overlay">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-menu [content]="content">
+  <ng-template [ngIf]="currentUser.isLogged">
+    <ion-header class="ftc-header-degrade">
+      <ion-grid>
+        <ion-row padding-top padding-left>
+          <img src="{{ currentUser.photo }}" width="100px" height="100px" class="ftc-circle-pic"/>
+        </ion-row>
+        <ion-row>
+          <p class="ftc-stylized-font ftc-font-menu ftc-header-title-first-line"><b>{{ currentUser.name }}</b></p>
+          <p class="ftc-header-title-second-line"><b>{{ currentUser.email }}</b></p>
+        </ion-row>
+      </ion-grid>
+    </ion-header>
+  </ng-template>
 
-  <ion-content>
+  <ion-content class="ftc-panel-background-color">
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+      <ng-template [ngIf]="currentUser.isLogged" [ngIfElse]="guest_content">
+        <button class="ftc-menu-item ftc-stylized-font ftc-font-menu" menuClose ion-item *ngFor="let p of pagesUser" (click)="openPage(p)">
+          <ion-icon [name]="p.icon" item-start></ion-icon>
+          {{p.title}}
+        </button>
+      </ng-template>
+      <ng-template #guest_content>
+          <button class="ftc-menu-item ftc-stylized-font ftc-font-menu" menuClose ion-item *ngFor="let p of pagesGuest" (click)="openPage(p)">
+              <ion-icon [name]="p.icon" item-start></ion-icon>
+              {{p.title}}
+            </button>
+      </ng-template>
     </ion-list>
   </ion-content>
 

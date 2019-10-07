@@ -1,14 +1,27 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SearchResultsPage } from '../search-results/search-results';
+import { PreloaderProvider } from '../../providers/preloader/preloader';
 
+@IonicPage()
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(
+    public NAVCTRL: NavController, 
+    public NAVPARAMS: NavParams,
+    public LOADER: PreloaderProvider) {
+  }
 
+  ionViewDidLoad() {
+    this.LOADER.hidePreloader();
+  }
+
+  search() {
+    this.NAVCTRL.push(SearchResultsPage);
   }
 
 }

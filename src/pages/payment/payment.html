@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title class="ftc-stylized-font ftc-header-title">Pagamento</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="ftc-popup-content">
+  <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Dados do Cartão</b></p>
+
+  <p class="ftc-divider ftc-panel-background-color" style="margin: 10px 10px 10px 10px"></p>
+
+  <ion-item class="ftc-input-text"> 
+    <ion-input type="text" maxlength="100" [(ngModel)]="firstName" placeholder="Nome"></ion-input>
+  </ion-item>
+
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="lastName" placeholder="Sobrenome"></ion-input>
+  </ion-item>
+
+  <ion-item class="ftc-input-text">
+    <ion-input type="number" maxlength="20" [(ngModel)]="cardNumber" placeholder="Número do Cartão"></ion-input>
+  </ion-item>
+
+  <ion-item class="ftc-input-text ftc-input-select">
+    <ion-input [(ngModel)]="expiryDate" readonly="true" placeholder="Data de Expiração"></ion-input>
+    <button ion-button clear margin-bottom type="button" item-right>
+      <ion-icon name="open"></ion-icon>
+    </button>
+  </ion-item>
+
+  <ion-item class="ftc-input-text">
+    <ion-input type="number" maxlength="5" [(ngModel)]="securityCode" placeholder="Código de Segurança"></ion-input>
+  </ion-item>
+
+  <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Endereço de Cobrança</b></p>
+
+  <p class="ftc-divider ftc-panel-background-color" style="margin: 10px 10px 10px 10px"></p>
+
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="200" [(ngModel)]="address" placeholder="Endereço"></ion-input>
+  </ion-item>
+
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="city" placeholder="Cidade"></ion-input>
+  </ion-item>
+
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="20" [(ngModel)]="postcode" placeholder="CEP"></ion-input>
+  </ion-item>
+
+  <ion-item class="ftc-input-text ftc-input-select">
+    <ion-input [(ngModel)]="country" readonly="true" placeholder="País"></ion-input>
+    <button ion-button clear margin-bottom type="button" item-right>
+      <ion-icon name="open"></ion-icon>
+    </button>
+  </ion-item>
+
+  <div padding-left padding-right padding-bottom><button ion-button round class="ftc-center ftc-single-button" (click)="confirmPayment()">Pagar R$35,00</button></div>
+</ion-content>

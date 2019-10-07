@@ -1,5 +1,7 @@
 {
   "name": "ftcdanny",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

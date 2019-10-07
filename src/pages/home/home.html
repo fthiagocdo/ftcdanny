@@ -3,16 +3,98 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title class="ftc-stylized-font ftc-header-title">Página Inicial</ion-title>
+    <ion-buttons end padding-right >
+      <button ion-button icon-only (click)="goToCheckoutPage()">
+        <ion-icon name="ftc-cart"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content padding-top class="ftc-panel-background-color">
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <ion-item class="ftc-input-text">
+    <ion-input placeholder="O que você está procurando?"></ion-input>
+    <button ion-button clear margin-bottom type="button" item-right (click)="search()">
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </ion-item>
+  
+  <ion-grid class="ftc-grid-product">
+    <ion-row>
+      <ion-col>
+        <ion-card class="ftc-card-product ftc-center" (click)="openProduct()">
+          <img src="/assets/imgs/product.jpg">
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+          <ion-card-title class="ftc-card-title ftc-stylized-font">
+            <b class="ftc-primary-color">Nome do Produto</b>
+            <div class="ftc-divider"></div>
+          </ion-card-title>
+
+          <ion-card-content class="ftc-card-content">
+            <p>R$10,00</p>
+            <p>Descrição produto</p>
+          </ion-card-content>
+          
+          <div style="padding: 5px 0px 5px 0px;"><button ion-button small round class="ftc-center" (click)="signup()">Adicionar</button></div>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card class="ftc-card-product ftc-center" (click)="openProduct()">
+          <img src="/assets/imgs/product.jpg">
+
+          <ion-card-title class="ftc-card-title ftc-stylized-font">
+            <b class="ftc-primary-color">Nome do Produto</b>
+            <div class="ftc-divider"></div>
+          </ion-card-title>
+
+          <ion-card-content class="ftc-card-content">
+            <p>R$10,00</p>
+            <p>Descrição produto</p>
+          </ion-card-content>
+          
+          <div style="padding: 5px 0px 5px 0px;"><button ion-button small round class="ftc-center" (click)="signup()">Adicionar</button></div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-card class="ftc-card-product ftc-center" (click)="openProduct()">
+          <img src="/assets/imgs/product.jpg">
+
+          <ion-card-title class="ftc-card-title ftc-stylized-font">
+            <b class="ftc-primary-color">Nome do Produto</b>
+            <div class="ftc-divider"></div>
+          </ion-card-title>
+
+          <ion-card-content class="ftc-card-content">
+            <p>R$10,00</p>
+            <p>Descrição produto</p>
+          </ion-card-content>
+          
+          <div style="padding: 5px 0px 5px 0px;"><button ion-button small round class="ftc-center" (click)="signup()">Adicionar</button></div>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card class="ftc-card-product ftc-center" (click)="openProduct()">
+          <img src="/assets/imgs/product.jpg">
+
+          <ion-card-title class="ftc-card-title ftc-stylized-font">
+            <b class="ftc-primary-color">Nome do Produto</b>
+            <div class="ftc-divider"></div>
+          </ion-card-title>
+
+          <ion-card-content class="ftc-card-content">
+            <p>R$10,00</p>
+            <p>Descrição produto</p>
+          </ion-card-content>
+          
+          <div style="padding: 5px 0px 5px 0px;"><button ion-button small round class="ftc-center" (click)="signup()">Adicionar</button></div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

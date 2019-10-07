@@ -1,0 +1,33 @@
+page-login {
+    .ftc-social-button {
+        width: 100%;
+        height: 11rem;
+    }
+
+    .ftc-facebook-button {
+        padding: 0px 5px 0px 0px;
+    }
+
+    .ftc-facebook-button button {
+        border-radius: 10px 10px 10px 10px;
+    }
+
+    .ftc-google-button {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .ftc-google-button button {
+        border-radius: 10px 10px 10px 10px;
+    }
+
+    .ftc-email-button {
+        border-radius: 10px;
+        width: 100%;
+        height: 4rem;
+    }
+
+    .ftc-logo {
+        width: 100%;
+    }
+
+}

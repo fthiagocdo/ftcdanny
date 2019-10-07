@@ -23,7 +23,7 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 
-
+$toolbar-background: #CD0045;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -34,11 +34,13 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    #CD0045,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  facebook:   #3B5998,
+  google:     #DD4B39,
 );
 
 
@@ -86,3 +88,11 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+@font-face {
+  font-family: 'station';
+  src: url('../assets/fonts/Station.ttf');
+  font-weight: normal;
+  font-style: normal;
+
+}

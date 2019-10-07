@@ -1,16 +1,335 @@
-// http://ionicframework.com/docs/theming/
+/*---------- General Items ----------*/
+.ftc-color-primary {
+    color: #CD0045 !important;
+}
 
+.ftc-background-color-primary {
+    background-color: #CD0045 !important; 
+}
 
-// App Global Sass
-// --------------------------------------------------
-// Put style rules here that you want to apply globally. These
-// styles are for the entire app and not just one component.
-// Additionally, this file can be also used as an entry point
-// to import other Sass files to be included in the output CSS.
-//
-// Shared Sass variables, which can be used to adjust Ionic's
-// default Sass variables, belong in "theme/variables.scss".
-//
-// To declare rules for a specific mode, create a child rule
-// for the .md, .ios, or .wp mode classes. The mode class is
-// automatically applied to the <body> element in the app.
+.ftc-stylized-font {
+    font-family: "station" !important;
+    font-weight: normal;
+}
+
+.ftc-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ftc-divider {
+    @extend .ftc-background-color-primary;
+    height: 1px;
+    overflow: hidden;
+}
+
+.ftc-panel-background-color {
+    background-color: #FAFBF5;
+}
+
+.header-md::after {
+    background-image: none !important; 
+}
+
+ion-icon {
+    &[class*="ftc-"] {
+      mask-size: contain;
+      mask-position: 50% 50%;
+      mask-repeat: no-repeat;
+      background: currentColor;
+      width: 1em;
+      height: 1em;
+    }
+
+    &[class*="ftc-home"] {
+      mask-image: url(../assets/icon/home.svg);
+    }
+
+    &[class*="ftc-profile"] {
+      mask-image: url(../assets/icon/profile.svg);
+    }
+
+    &[class*="ftc-cart"] {
+      mask-image: url(../assets/icon/shopping-cart.svg);
+    }
+
+    &[class*="ftc-history"] {
+        mask-image: url(../assets/icon/history.svg);
+      }
+    
+    &[class*="ftc-login"] {
+      mask-image: url(../assets/icon/enter.svg);
+    }
+
+    &[class*="ftc-logout"] {
+      mask-image: url(../assets/icon/exit.svg);
+    }
+}
+
+/*----------- Alert Popup -----------*/
+.ftc-info-color{
+    color: #CD0045 !important;
+}
+
+.ftc-error-color{
+    color: red !important;
+}
+
+.alert-wrapper {
+    border-radius: 20px !important;
+}
+
+.alert-message {
+    text-align: justify;
+}
+
+.alert-title {
+    text-align: justify;
+}
+
+.ftc-alert-info-button{
+    color: white !important;
+    background-color: #CD0045 !important; 
+    border-radius: 10px !important;
+    width: 100px;
+}
+
+.ftc-alert-error-button{
+    color: white !important;
+    background-color: red !important; 
+    border-radius: 10px !important;
+    width: 100px;
+}
+
+.ftc-yes-button{
+    color: white !important;
+    background-color: green !important; 
+    border-radius: 10px !important;
+    width: 60px;
+}
+
+.ftc-no-button{
+    color: white !important;
+    background-color: red !important;
+    border-radius: 10px !important;
+    width: 60px;
+}
+
+.ftc-modal-button .button-inner{
+    justify-content: center !important;
+}
+
+/*----------- Modal Popup -----------*/
+
+.ftc-popup-content {
+    padding: 10px 10px 10px 10px; 
+    background-color: #FAFBF5 !important;
+}
+
+.ftc-popup-content .scroll-content {
+    padding-bottom: 0px !important;
+}
+
+ion-modal.my-popup {
+    @media (min-height: 500px) {
+      ion-backdrop {
+        visibility: visible;
+      }
+    }
+  
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $z-index-overlay;
+  
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    contain: strict;
+    .modal-wrapper {
+      &,
+      .ion-page,
+      .ion-page .content,
+      .ion-page .content .scroll-content {
+        contain: content;
+        position: relative;
+        top: auto;
+        left: auto;
+      }
+  
+      z-index: $z-index-overlay-wrapper;
+      display: flex;
+      overflow: hidden;
+  
+      flex-direction: column;
+  
+      min-width: 90%;
+      max-height: $alert-max-height;
+  
+      opacity: 0;
+  
+      height: auto;
+      max-width: $alert-md-max-width;
+      border-radius: 20px;
+      background-color: $alert-md-background-color;
+      box-shadow: $alert-md-box-shadow;
+  
+      .ion-page .content {
+        background-color: white;
+      }
+    }
+  }
+
+/*---------- Sidemenu ----------*/
+.ftc-header-degrade{
+    background-color: #CD0045;
+    font-size: 20px;
+    color: white;
+}
+
+.ftc-circle-pic{
+    background: white;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.ftc-header-title-first-line {
+    width: 100%; 
+    margin: 10px 0px 0px 20px;
+}
+
+.ftc-header-title-second-line {
+    margin: 0px 0px 10px 20px; 
+    font-size: 1.5rem; 
+}
+
+.ftc-menu-item {
+    @extend .ftc-color-primary;
+    font-weight: bold;
+}
+
+.ftc-menu-item div{
+    border: 0px !important;
+}
+
+.ftc-menu-item .icon {
+    margin-bottom: 0px !important;
+}
+
+.ftc-menu-item .label {
+    margin-bottom: 0px !important;
+}
+
+/*--------- Checkout Card ---------*/
+.ftc-image-checkout {
+    max-width: 120px;
+    padding: 0px;
+}
+
+.ftc-image-checkout img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.ftc-card-checkout {
+    border-radius: 20px;
+    font-size: 1.4rem;
+    background: #fff;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.ftc-icon-delete {
+    display: flex; 
+    align-items: center; 
+    padding: 0px; 
+    max-width: 11%; 
+}
+
+.ftc-card-total {
+    padding: 0px 7px 0px 7px;
+}
+
+.ftc-card-total .card {
+    border-radius: 20px;
+}
+
+.ftc-card-total .item-block {
+    background-color: white !important;
+}
+
+.ftc-card-total p {
+    color: grey;
+    font-weight: bold;
+}
+
+/*---------- Specific Items ----------*/
+.ftc-panel{
+    background: white;
+}
+
+.ftc-single-button {
+    width: 100%;
+}
+
+.ftc-input-text {
+    padding: 0px 10px 20px 10px;
+}
+
+.ftc-input-text .item-inner {
+    border: 0px !important;
+    border-radius: 10px !important;
+    -webkit-box-shadow: 0px 10px 13px -7px #CD0045, 11px 24px 15px -3px rgba(26,113,178,0) !important;
+    box-shadow: 0px 10px 13px -7px #CD0045, 11px 24px 15px -3px rgba(26,113,178,0) !important;
+    background-color: white;
+}
+
+.ftc-input-text .text-input {
+    @extend .ftc-color-primary;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.ftc-card-product {
+    background-color: white;
+    color: white;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.ftc-card-title {
+    @extend .ftc-color-primary;
+    font-size: 1.5rem !important;
+    text-align: justify; 
+    padding: 10px 10px 0px 10px;
+}
+
+.ftc-card-content {
+    font-size: 1.5rem !important;
+    text-align: justify; 
+    padding: 5px 10px 0px 10px;
+}
+
+.ftc-card-content p {
+    color: grey;
+    opacity: 0.7;
+    font-weight: 900;
+}
+
+.ftc-grid-product {
+    padding-top: 0px;
+}
+
+.ftc-grid-product .col {
+    padding: 0px 5px 5px 5px;
+}
+
+.item-block {
+    @extend .ftc-panel-background-color;
+}

@@ -1,0 +1,20 @@
+page-profile {
+    .item {
+        padding: 0px 5px 20px 5px;
+    }
+
+    .item .text-input {
+        text-align: left;
+    }
+
+    .ftc-icon-edit {
+        margin-bottom: 0px;
+        padding-bottom: 15px;
+    }
+
+    ion-label {
+        margin: 0px 0px 5px 10px !important;
+        font-size: 2rem !important;
+        font-weight: bold !important;
+    }
+}

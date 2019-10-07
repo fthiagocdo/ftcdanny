@@ -4,41 +4,65 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { LoginPage } from '../pages/login/login';
+import { CheckoutPage } from '../pages/checkout/checkout';
+import { OrderHistoryPage } from '../pages/order-history/order-history';
+import { ProfilePage } from '../pages/profile/profile';
+import { AuthProvider } from '../providers/auth/auth';
+import { PreloaderProvider } from '../providers/preloader/preloader';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-
   rootPage: any = HomePage;
+  pagesGuest: Array<{title: string, icon: string, component: any}>;
+  pagesUser: Array<{title: string, icon: string, component: any}>;
+  currentUser: any;
 
-  pages: Array<{title: string, component: any}>;
+  constructor(
+    public STATUSBAR: StatusBar, 
+    public SPLASHSCREEN: SplashScreen,
+    public PLATFORM: Platform,
+    public AUTH : AuthProvider, 
+    public LOADER: PreloaderProvider) {
+      this.initializeApp();
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
-    this.initializeApp();
+      this.AUTH.activeUser.subscribe((_user)=>{
+        this.currentUser = _user;
+      });
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
-    ];
+      this.pagesGuest = [
+        { title: 'Página Inicial', icon: 'ftc-home', component: HomePage },
+        { title: 'Entrar', icon:'ftc-login', component: LoginPage },
+      ];
+      this.pagesUser = [
+        { title: 'Página Inicial', icon: 'ftc-home', component: HomePage },
+        { title: 'Dados do Perfil', icon:'ftc-profile', component: ProfilePage },
+        { title: 'Carrinho de Compras', icon:'ftc-cart', component: CheckoutPage },
+        { title: 'Histórico de Pedidos', icon:'ftc-history', component: OrderHistoryPage },
+        { title: 'Sair', icon:'ftc-logout', component: LoginPage },
+      ];
 
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+    this.STATUSBAR.backgroundColorByHexString('#CD0045');
+    this.PLATFORM.ready().then(() => {
+      this.STATUSBAR.styleDefault();
+      this.SPLASHSCREEN.hide();
     });
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.LOADER.displayPreloader();
+
+    if(page.title == 'Sair'){
+      this.AUTH.doLogout();
+      this.nav.setRoot(LoginPage);
+    }else{
+      this.nav.setRoot(page.component);
+    }
   }
 }

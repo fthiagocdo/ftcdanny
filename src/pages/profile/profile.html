@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title class="ftc-stylized-font ftc-header-title">Dados do Perfil</ion-title>
+    <ion-buttons end padding-right >
+      <button ion-button icon-only (click)="goToCheckoutPage()">
+        <ion-icon name="cart"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="ftc-panel-background-color">
+
+  <ion-label color="primary" stacked>Nome</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="name"></ion-input>
+  </ion-item>
+
+  <ng-template [ngIf]="provider == 'email'">
+    <ion-label color="primary" stacked>Email</ion-label>
+    <ion-item class="ftc-input-text">
+      <ion-input type="email" maxlength="100" [(ngModel)]="email" readonly="true"></ion-input>
+    </ion-item>
+
+    <ion-label color="primary" stacked>Senha</ion-label>
+    <ion-item class="ftc-input-text">
+      <ion-input placeholder="Senha" readonly="true" value="********"></ion-input>
+      <button ion-button clear margin-bottom class="ftc-icon-edit" type="button" item-right (click)="changePassword()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-item>
+  </ng-template>
+
+  <ion-label color="primary" stacked>Telefone de Contato</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="phoneNumber"></ion-input>
+  </ion-item>
+
+  <ion-label color="primary" stacked>CEP</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="postcode"></ion-input>
+  </ion-item>
+
+  <ion-label color="primary" stacked>Logradouro</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="street"></ion-input>
+  </ion-item>
+
+  <ion-label color="primary" stacked>Bairro</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="text" maxlength="100" [(ngModel)]="neighborhood"></ion-input>
+  </ion-item>
+
+  <ion-label color="primary" stacked>Cidade</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="email" maxlength="100" [(ngModel)]="city"></ion-input>
+  </ion-item>
+
+  <ion-label color="primary" stacked>Estado</ion-label>
+  <ion-item class="ftc-input-text">
+    <ion-input type="email" maxlength="100" [(ngModel)]="state"></ion-input>
+  </ion-item>
+
+  <div style="padding: 0px 3px 0px 3px;">
+    <button ion-button full round (click)="updateProfile()" class="ftc-center">Confirmar</button>
+  </div>
+
+</ion-content>
