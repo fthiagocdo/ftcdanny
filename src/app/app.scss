@@ -238,6 +238,7 @@ ion-modal.my-popup {
 }
 
 .ftc-card-checkout {
+    margin: 10px 0px 0px 0px !important;
     border-radius: 20px;
     font-size: 1.4rem;
     background: #fff;
@@ -253,7 +254,7 @@ ion-modal.my-popup {
 }
 
 .ftc-card-total {
-    padding: 0px 7px 0px 7px;
+    padding: 0px 6px 0px 6px;
 }
 
 .ftc-card-total .card {
@@ -294,6 +295,35 @@ ion-modal.my-popup {
     @extend .ftc-color-primary;
     margin-left: 20px;
     text-align: center;
+}
+
+.ftc-input-text .select {
+    width: 100%;
+    max-width: 100%;
+}
+
+.ftc-input-text .select-text {
+    color: grey;
+}
+
+.ftc-input-text .select-icon-inner {
+    @extend .ftc-color-primary;
+}
+
+.ftc-input-text .datetime {
+    @extend .ftc-color-primary;
+}
+
+.alert-title {
+    @extend .ftc-color-primary;
+}
+
+.alert-radio-label {
+    color: grey !important;
+}
+
+.alert-md [aria-checked=true] .alert-radio-label {
+    @extend .ftc-color-primary;
 }
 
 .ftc-card-product {

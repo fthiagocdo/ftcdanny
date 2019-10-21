@@ -9,51 +9,35 @@
 
 <ion-content class="ftc-panel-background-color">
 
-  <ion-grid padding-top padding-right padding-left>
+  <ion-row class="ftc-card-total" *ngIf="showEmptyCartMessage">
+    <ion-card>
+      <p class="ftc-color-primary" style="padding: 20px; font-weight: bold; font-size: 2rem;" text-center>Seu carrinho está vazio.</p>
+    </ion-card>
+  </ion-row>
 
-    <ion-row margin-bottom class="ftc-card-checkout">
+  <ion-row class="ftc-card-total" *ngIf="showEmptyCartMessage">
+    <ion-card>
+      <ion-item>
+        <p><span float-left>Subtotal: </span><span float-right class="ftc-color-primary">R$ 0,00</span></p>
+        <p ><span float-left>Taxa de Entrega: </span><span float-right class="ftc-color-primary">R$ 0,00</span></p>
+        <p class="ftc-divider"></p>
+        <p><span float-left>Total: </span><span float-right class="ftc-color-primary">R$ 0,00</span></p>
+      </ion-item>
+    </ion-card>
+  </ion-row>
+
+  <ion-grid padding-top padding-right padding-left *ngIf="showCartItems">
+
+    <ion-row margin-bottom class="ftc-card-checkout" *ngFor="let item of checkoutItems">
       <ion-col class="ftc-image-checkout">
-        <img src="/assets/imgs/product.jpg">
+        <img src="{{ item.photo }}">
       </ion-col>
       <ion-col padding-top class="ftc-card-content">
-        <b class="ftc-color-primary ftc-stylized-font">Nome do Produto</b>
-        <p>R$10,00</p>
-        <p>Descrição produto</p>
+        <b class="ftc-color-primary ftc-stylized-font">{{ item.name }}</b>
+        <p>{{ item.price | currency:"R$" }}</p>
       </ion-col>
       <ion-col class="ftc-color-primary ftc-icon-delete">
-        <button ion-button icon-only clear (click)="deleteItem()">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row margin-bottom class="ftc-card-checkout">
-      <ion-col class="ftc-image-checkout">
-        <img src="/assets/imgs/product.jpg">
-      </ion-col>
-      <ion-col padding-top class="ftc-card-content">
-        <b class="ftc-color-primary ftc-stylized-font">Nome do Produto</b>
-        <p>R$10,00</p>
-        <p>Descrição produto</p>
-      </ion-col>
-      <ion-col class="ftc-color-primary ftc-icon-delete">
-        <button ion-button icon-only clear (click)="deleteItem()">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row margin-bottom class="ftc-card-checkout">
-      <ion-col class="ftc-image-checkout">
-        <img src="/assets/imgs/product.jpg">
-      </ion-col>
-      <ion-col padding-top class="ftc-card-content">
-        <b class="ftc-color-primary ftc-stylized-font">Nome do Produto</b>
-        <p>R$10,00</p>
-        <p>Descrição produto</p>
-      </ion-col>
-      <ion-col class="ftc-color-primary ftc-icon-delete">
-        <button ion-button icon-only clear (click)="deleteItem()">
+        <button ion-button icon-only clear (click)="removeItemCheckout(item.id)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-col>
@@ -61,16 +45,16 @@
 
   </ion-grid>
 
-  <ion-row class="ftc-card-total">
+  <ion-row class="ftc-card-total" *ngIf="showCartItems">
     <ion-card>
       <ion-item>
-        <p><span float-left>Subtotal: </span><span float-right class="ftc-color-primary">R$30,00</span></p>
-        <p ><span float-left>Taxa de Entrega: </span><span float-right class="ftc-color-primary">R$5,00</span></p>
+        <p><span float-left>Subtotal: </span><span float-right class="ftc-color-primary">{{ checkout.partial_value | currency:"R$" }}</span></p>
+        <p ><span float-left>Taxa de Entrega: </span><span float-right class="ftc-color-primary">{{ checkout.delivery_fee | currency:"R$" }}</span></p>
         <p class="ftc-divider"></p>
-        <p><span float-left>Total: </span><span float-right class="ftc-color-primary">R$35,00</span></p>
+        <p><span float-left>Total: </span><span float-right class="ftc-color-primary">{{ checkout.total_value | currency:"R$" }}</span></p>
       </ion-item>
     </ion-card>
   </ion-row>
 
-  <div padding-right padding-left><button ion-button full round (click)="openModalDeliveryAddress()">Confirmar Pedido</button></div>
+  <div padding-right padding-left *ngIf="showCartItems"><button ion-button full round (click)="goToDeliveryInfo()">Confirmar Pedido</button></div>
 </ion-content>

@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title class="ftc-stylized-font ftc-header-title">Pedido 123456789</ion-title>
-    <ion-buttons end padding-right >
+    <ion-buttons end padding-right *ngIf="currentUser.isLogged">
       <button ion-button icon-only (click)="goToCheckoutPage()">
         <ion-icon name="ftc-cart"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-title class="ftc-stylized-font ftc-header-title">Pedido 123456789</ion-title>
   </ion-navbar>
 </ion-header>
 

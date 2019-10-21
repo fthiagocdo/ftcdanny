@@ -11,6 +11,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -21,6 +22,8 @@ export class LoginPage {
   currentUser: any;
   email: string = "";
   password: string = "";
+  keepLogged: boolean = true;
+  keepmeLoggedAlias: string = 'UID';
 
   constructor(
     public NAVCTRL: NavController,  
@@ -33,7 +36,8 @@ export class LoginPage {
     public LOADER: PreloaderProvider,
     public MODALCTRL: ModalController,
     public ALERTCTRL: AlertController,
-    public HTTPSERVICE: HttpServiceProvider
+    public HTTPSERVICE: HttpServiceProvider,
+    public STORAGE: Storage
     ) {
 
       this.AUTH.activeUser.subscribe((_user)=>{
@@ -72,7 +76,14 @@ export class LoginPage {
               .subscribe(data => { 
                 _class.currentUser.provider = data.provider;
                 _class.currentUser.photo = data.photo;
+
                 _class.doLogin(data);
+
+                if(_class.keepLogged) {
+                  _class.setDetailsKeepmeLogged(credential.uid);
+                } else {
+                  _class.clearDetailsKeepmeLogged();
+                }
               }, err => {
                 console.log(err);
                 _class.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
@@ -109,6 +120,12 @@ export class LoginPage {
         _class.HTTPSERVICE.findUser(credential.user.uid)
           .subscribe(data => { 
             _class.doLogin(data);
+
+            if(_class.keepLogged) {
+              _class.setDetailsKeepmeLogged(credential.uid);
+            } else {
+              _class.clearDetailsKeepmeLogged();
+            }
           }, err => {
             _class.createUser(credential.user.displayName, credential.user.email, 'google', credential.user.uid, credential.user.photoURL);
           }
@@ -133,6 +150,12 @@ export class LoginPage {
             _class.HTTPSERVICE.findUser(credential.uid)
               .subscribe(data => { 
                 _class.doLogin(data);
+
+                if(_class.keepLogged) {
+                  _class.setDetailsKeepmeLogged(credential.uid);
+                } else {
+                  _class.clearDetailsKeepmeLogged();
+                }
               }, err => {
                 _class.createUser(credential.displayName, credential.email, 'google', credential.uid, credential.photoURL);
               }
@@ -140,7 +163,7 @@ export class LoginPage {
       });
     }, err => {
       _class.LOADER.hidePreloader();
-      _class.UTILS.showMessage(err.message, 'error');
+      _class.UTILS.showMessage(err, 'error');
     });
   }
 
@@ -157,6 +180,12 @@ export class LoginPage {
             _class.HTTPSERVICE.findUser(user.uid)
               .subscribe(data => { 
                 _class.doLogin(data);
+
+                if(_class.keepLogged) {
+                  _class.setDetailsKeepmeLogged(user.uid);
+                } else {
+                  _class.clearDetailsKeepmeLogged();
+                }
               }, err => {
                 _class.createUser(user.displayName, user.email, 'google', user.uid, user.photoURL+'?height=256&width=256');
               }
@@ -180,13 +209,16 @@ export class LoginPage {
     this.currentUser.photo = data.photo;
     
     if(data.delivery_info) {
+      this.currentUser.ddd = data.delivery_info.ddd;
       this.currentUser.phoneNumber = data.delivery_info.phone_number;
       this.currentUser.postcode = data.delivery_info.postcode;
       this.currentUser.street = data.delivery_info.street;
+      this.currentUser.number = data.delivery_info.number;
       this.currentUser.neighborhood = data.delivery_info.neighborhood;
       this.currentUser.city = data.delivery_info.city;
       this.currentUser.state = data.delivery_info.state;
     }
+
     this.AUTH.doLogin(this.currentUser);
     this.NAVCTRL.setRoot(HomePage); 
   }
@@ -247,6 +279,14 @@ export class LoginPage {
       cssClass: 'ftc-info-color'
     });
     alert.present();
+  }
+
+  setDetailsKeepmeLogged(uid) {
+    this.STORAGE.set(this.keepmeLoggedAlias, uid);
+  }
+
+  clearDetailsKeepmeLogged() {
+    this.STORAGE.remove(this.keepmeLoggedAlias);
   }
 
 }

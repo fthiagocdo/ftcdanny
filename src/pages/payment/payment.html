@@ -5,55 +5,43 @@
 </ion-header>
 
 <ion-content class="ftc-popup-content">
-  <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Dados do Cartão</b></p>
+  <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Dados do cartão</b></p>
 
   <p class="ftc-divider ftc-panel-background-color" style="margin: 10px 10px 10px 10px"></p>
 
-  <ion-item class="ftc-input-text"> 
-    <ion-input type="text" maxlength="100" [(ngModel)]="firstName" placeholder="Nome"></ion-input>
-  </ion-item>
-
+  <ion-label color="primary" stacked>Número do Cartão</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="text" maxlength="100" [(ngModel)]="lastName" placeholder="Sobrenome"></ion-input>
+    <ion-input type="text" maxlength="100" [(ngModel)]="numCard"></ion-input>
   </ion-item>
 
+  <ion-label color="primary" stacked>Data de Expiração</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="number" maxlength="20" [(ngModel)]="cardNumber" placeholder="Número do Cartão"></ion-input>
+    <ion-datetime displayFormat="MM/YYYY" yearValues="{{ yearValues }}" [(ngModel)]="expiryDate"></ion-datetime>
   </ion-item>
 
-  <ion-item class="ftc-input-text ftc-input-select">
-    <ion-input [(ngModel)]="expiryDate" readonly="true" placeholder="Data de Expiração"></ion-input>
-    <button ion-button clear margin-bottom type="button" item-right>
-      <ion-icon name="open"></ion-icon>
-    </button>
-  </ion-item>
-
+  <ion-label color="primary" stacked>Código de Segurança</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="number" maxlength="5" [(ngModel)]="securityCode" placeholder="Código de Segurança"></ion-input>
+    <ion-input type="text" maxlength="100" [(ngModel)]="codSegCard"></ion-input>
   </ion-item>
 
-  <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Endereço de Cobrança</b></p>
+  <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Dados do proprietário do cartão</b></p>
 
   <p class="ftc-divider ftc-panel-background-color" style="margin: 10px 10px 10px 10px"></p>
 
+  <ion-label color="primary" stacked>Nome</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="text" maxlength="200" [(ngModel)]="address" placeholder="Endereço"></ion-input>
+    <ion-input type="text" maxlength="100" [(ngModel)]="cardHolderName" placeholder="igual ao exibido no cartão"></ion-input>
   </ion-item>
 
+  <ion-label color="primary" stacked>CPF</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="text" maxlength="100" [(ngModel)]="city" placeholder="Cidade"></ion-input>
+    <ion-input type="number" maxlength="100" [(ngModel)]="cardHolderCPF" placeholder="apenas números"></ion-input>
   </ion-item>
 
+  <ion-label color="primary" stacked>Data de Nascimento</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="text" maxlength="20" [(ngModel)]="postcode" placeholder="CEP"></ion-input>
+    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="cardHolderBirthDate"></ion-datetime>
   </ion-item>
 
-  <ion-item class="ftc-input-text ftc-input-select">
-    <ion-input [(ngModel)]="country" readonly="true" placeholder="País"></ion-input>
-    <button ion-button clear margin-bottom type="button" item-right>
-      <ion-icon name="open"></ion-icon>
-    </button>
-  </ion-item>
-
-  <div padding-left padding-right padding-bottom><button ion-button round class="ftc-center ftc-single-button" (click)="confirmPayment()">Pagar R$35,00</button></div>
+  <div padding-left padding-right padding-bottom><button ion-button round class="ftc-center ftc-single-button" (click)="confirmPayment()">Pagar {{ valuePayment | currency:"R$" }}</button></div>
 </ion-content>

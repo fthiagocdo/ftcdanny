@@ -1,14 +1,26 @@
 page-payment {
     .ftc-payment-title {
         text-align: center;
-        font-size: 1.8rem;
+        font-size: 2rem;
+        margin: 15px;
     }
 
-    .ftc-input-select .text-input {
-        margin-left: 38px;
+    .item {
+        padding: 0px 5px 20px 5px;
     }
 
-    .ftc-input-select .icon {
-        margin-top: 8px;
+    .item .text-input {
+        text-align: left;
+    }
+
+    .ftc-icon-edit {
+        margin-bottom: 0px;
+        padding-bottom: 15px;
+    }
+
+    ion-label {
+        margin: 0px 0px 5px 10px !important;
+        font-size: 1.8rem !important;
+        font-weight: bold !important;
     }
 }

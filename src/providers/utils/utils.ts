@@ -34,10 +34,6 @@ export class UtilsProvider {
       }
   }
 
-  /*getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-
   isEmpty(value){
     if(value == null || value == 'null' || value == '' || value == ""){
       return true;
@@ -45,6 +41,16 @@ export class UtilsProvider {
       return false;
     }
   }
+
+  justNumbers(text) {
+    return text.replace(/\D/g, '');
+  }
+
+  /*getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  
 
   isUserLogged(user, navCtrl) {
     if(user.isLogged){

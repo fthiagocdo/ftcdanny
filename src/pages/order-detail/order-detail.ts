@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the OrderDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { PreloaderProvider } from '../../providers/preloader/preloader';
+import { CheckoutPage } from '../checkout/checkout';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class OrderDetailPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public NAVCTRL: NavController, 
+    public NAVPARAMS: NavParams,
+    public LOADER: PreloaderProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrderDetailPage');
+  }
+
+  goToCheckoutPage() {
+    this.LOADER.displayPreloader();
+    this.NAVCTRL.setRoot(CheckoutPage);
   }
 
 }

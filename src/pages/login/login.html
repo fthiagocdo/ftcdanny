@@ -12,6 +12,11 @@
   <img src="/assets/imgs/logo.jpg" class="ftc-logo">
 
   <div padding-left padding-right class="ftc-panel-background-color">
+    <ion-item>
+      <ion-label color="primary">Manter-se logado?</ion-label>
+      <ion-checkbox [(ngModel)]="keepLogged"></ion-checkbox>
+    </ion-item>
+
     <ion-item class="ftc-input-text">
       <ion-input type="email" maxlength="100" [(ngModel)]="email" placeholder="Email"></ion-input>
     </ion-item>
@@ -24,7 +29,7 @@
     
     <button ion-button small clear float-right (click)="openModalRecoverPassword()">Recuperar Senha</button>
     
-    <div padding><button ion-button class="ftc-center ftc-email-button" (click)="loginEmail()">Acesso com e-mail</button></div>
+    <div padding><button ion-button class="ftc-center ftc-email-button" (click)="loginEmail()">Entrar</button></div>
 
     <div class="ftc-divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
 

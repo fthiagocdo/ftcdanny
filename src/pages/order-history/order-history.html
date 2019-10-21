@@ -3,12 +3,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title class="ftc-stylized-font ftc-header-title">Histórico de pedidos</ion-title>
-    <ion-buttons end padding-right >
+    <ion-buttons end padding-right *ngIf="currentUser.isLogged">
       <button ion-button icon-only (click)="goToCheckoutPage()">
         <ion-icon name="ftc-cart"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-title class="ftc-stylized-font ftc-header-title">Histórico de pedidos</ion-title>
   </ion-navbar>
 </ion-header>
   

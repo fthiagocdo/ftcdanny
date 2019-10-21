@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class AuthProvider {
@@ -14,18 +15,21 @@ export class AuthProvider {
     name: '',
     email: '',
     photo: '',
+    ddd: '',
     phoneNumber: '',
     postcode: '',
     street: '',
+    number: '',
     neighborhood: '',
     city: '',
-    state: '',
+    state: ''
   });
 
   constructor(
     public ANGULARFIREAUTH: AngularFireAuth, 
     public GOOGLEPLUS: GooglePlus, 
-    public PLATFORM: Platform) { }
+    public PLATFORM: Platform,
+    public STORAGE: Storage) { }
 
   doLogin(user) {
     this.activeUser.next({ 
@@ -36,12 +40,14 @@ export class AuthProvider {
       name: user.name,
       email: user.email,
       photo: user.photo,
+      ddd: user.ddd,
       phoneNumber: user.phoneNumber,
       postcode: user.postcode,
       street: user.street,
+      number: user.number,
       neighborhood: user.neighborhood,
       city: user.city,
-      state: user.state,
+      state: user.state
     });
   }
 
@@ -54,14 +60,17 @@ export class AuthProvider {
       name: '',
       email: '',
       photo: '',
+      ddd: '',
       phoneNumber: '',
       postcode: '',
       street: '',
+      number: '',
       neighborhood: '',
       city: '',
-      state: '',
+      state: ''
      });
 
+    this.STORAGE.remove("UID");
     this.ANGULARFIREAUTH.auth.signOut();
     if(this.PLATFORM.is('cordova')){
       this.GOOGLEPLUS.logout();
