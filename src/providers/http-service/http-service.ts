@@ -21,6 +21,19 @@ export class HttpServiceProvider {
     headers.append('Access-Control-Allow-Origin', '*');
     return headers;
   }
+  
+  //----------------------------------------------------------------------------------------------------------
+
+  getConfigVars() {
+    const requestOptions = new RequestOptions({headers: this.createHeader()});
+
+    return this.HTTP.get(this.url+'configvars', requestOptions)
+      .map(res => {
+        return res.json()
+      });
+  }
+
+  //----------------------------------------------------------------------------------------------------------
 
   getUsers() {
     const requestOptions = new RequestOptions({headers: this.createHeader()});
@@ -112,12 +125,13 @@ export class HttpServiceProvider {
       });
   }
 
-  addItemCheckout(userId, productId) {
+  addItemCheckout(userId, productId, quantity) {
     const requestOptions = new RequestOptions({headers: this.createHeader()});
 
     let data = {
       user_id: userId,
-      product_id: productId  
+      product_id: productId,
+      quantity: quantity  
     };
 
     return this.HTTP.post(this.url+'checkoutitems', data, requestOptions)
@@ -126,29 +140,44 @@ export class HttpServiceProvider {
       });
   }
 
-  removeItemCheckout(checkoutId, itemId) {
-    const requestOptions = new RequestOptions({
-      params: {
-        checkout_id: checkoutId
-      },
-      headers: this.createHeader()
-    });
+  changeQuantityItemCheckout(checkoutId, itemId, quantity) {
+    const requestOptions = new RequestOptions({ headers: this.createHeader() });
+    
+    let data = {
+      _method: 'PUT',
+      item_id: itemId,
+      quantity: quantity,
+    };
 
-    return this.HTTP.delete(this.url+'checkoutitems/'+itemId, requestOptions)
+    return this.HTTP.post(this.url+'checkoutitems/'+checkoutId, data, requestOptions)
       .map(res => {
         return res.json()
       });
   }
 
-  saveDeliveryInfo(checkoutId, name, phoneNumber, postcode, street, neighborhood, city, state) {
+  removeItemCheckout(checkoutId, itemId) {
+    const requestOptions = new RequestOptions({ 
+      headers: this.createHeader(),
+      params: {item_id: itemId}
+    });
+    
+    return this.HTTP.delete(this.url+'checkoutitems/'+checkoutId, requestOptions)
+      .map(res => {
+        return res.json()
+      });
+  }
+
+  saveDeliveryInfo(checkoutId, name, ddd, phoneNumber, postcode, street, number, neighborhood, city, state) {
     const requestOptions = new RequestOptions({ headers: this.createHeader() });
 
     let data = {
       checkout_id: checkoutId,
       name: name,
+      ddd: ddd,
       phone_number: phoneNumber,
       postcode: postcode,  
       street: street,
+      number: number,
       neighborhood: neighborhood,
       city: city,
       state: state
@@ -171,6 +200,28 @@ export class HttpServiceProvider {
     };
 
     return this.HTTP.post(this.url+'checkoutpayments', data, requestOptions)
+      .map(res => {
+        return res.json()
+      });
+
+  }
+
+  //-----------------------------------------------------------------------------------------------------------------------------
+
+  getOrderHistory(userId) {
+    const requestOptions = new RequestOptions({ headers: this.createHeader() });
+
+    return this.HTTP.get(this.url+'orderhistories/all/'+userId, requestOptions)
+      .map(res => {
+        return res.json()
+      });
+
+  }
+
+  getOrderDetails(checkoutId) {
+    const requestOptions = new RequestOptions({ headers: this.createHeader() });
+
+    return this.HTTP.get(this.url+'orderhistories/details/'+checkoutId, requestOptions)
       .map(res => {
         return res.json()
       });

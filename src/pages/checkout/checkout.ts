@@ -6,6 +6,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { DeliveryInfoPage } from '../delivery-info/delivery-info';
 import { ProfilePage } from '../profile/profile';
+import { QuantityItemPage } from '../quantity-item/quantity-item';
 
 @IonicPage()
 @Component({
@@ -39,32 +40,41 @@ export class CheckoutPage {
 
   getCheckout() {
     this.LOADER.displayPreloader();
-    let _class = this;
 
     this.HTTPSERVICE.getCheckout(this.currentUser.id)
       .subscribe(data => { 
-        _class.verifyCart(data);
+        this.verifyCart(data);
       }, err => {
         console.log(err);
-        _class.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
+        this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
         this.LOADER.hidePreloader();
       }
     );
   }
 
-  removeItemCheckout(itemId) {
-    this.LOADER.displayPreloader();
-    let _class = this;
+  openModalQuantity(itemId, quantity) {
+    let modalQuantity = this.MODALCTRL.create(QuantityItemPage, {
+      showBackdrop: true, 
+      enableBackdropDismiss: true,
+      productId: itemId,
+      userId: this.currentUser.id,
+      quantity: quantity
+    });
+    modalQuantity.onDidDismiss(data => {
+      this.changeQuantityItemCheckout(itemId, data.quantity);
+    });
+    modalQuantity.present();
+  }
 
-    this.HTTPSERVICE.removeItemCheckout(this.checkout.id, itemId)
-      .subscribe(data => { 
-        _class.verifyCart(data);
+  changeQuantityItemCheckout(itemId, quantity) {
+    this.HTTPSERVICE.changeQuantityItemCheckout(this.checkout.id, itemId, quantity)
+      .subscribe(data => {
+        this.verifyCart(data);
       }, err => {
         console.log(err);
-        _class.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
+        this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
         this.LOADER.hidePreloader();
-      }
-    );
+      });
   }
 
   verifyCart(data) {

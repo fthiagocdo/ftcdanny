@@ -1,62 +1,40 @@
 <ion-header>
   <ion-navbar>
-    <ion-buttons end padding-right *ngIf="currentUser.isLogged">
+    <ion-buttons end padding-right>
       <button ion-button icon-only (click)="goToCheckoutPage()">
         <ion-icon name="ftc-cart"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title class="ftc-stylized-font ftc-header-title">Pedido 123456789</ion-title>
+    <ion-title class="ftc-stylized-font ftc-header-title">{{ 'Pedido ' + orderNumber }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="ftc-panel-background-color">
 
-  <ion-grid padding-top padding-right padding-left>
-
-    <ion-row margin-bottom class="ftc-card-checkout">
-      <ion-col class="ftc-image-checkout">
-        <img src="/assets/imgs/product.jpg">
-      </ion-col>
-      <ion-col padding-top class="ftc-card-content">
-        <b class="ftc-color-primary ftc-stylized-font">Nome do Produto</b>
-        <p>R$10,00</p>
-        <p>Descrição produto</p>
-      </ion-col>
+    <ion-grid padding-top padding-right padding-left *ngIf="showCartItems">
+  
+      <ion-row margin-bottom class="ftc-card-checkout" *ngFor="let item of checkoutItems">
+        <ion-col class="ftc-image-checkout">
+          <img src="{{ item.photo }}">
+        </ion-col>
+        <ion-col padding-top class="ftc-card-content">
+          <b class="ftc-color-primary ftc-stylized-font">{{ item.name }}</b>
+          <p>{{ item.price | currency:"R$" }}</p>
+        </ion-col>
+      </ion-row>
+  
+    </ion-grid>
+  
+    <ion-row class="ftc-card-total" *ngIf="showCartItems">
+      <ion-card>
+        <ion-item>
+          <p><span float-left>Subtotal: </span><span float-right class="ftc-color-primary">{{ partialValue | currency:"R$" }}</span></p>
+          <p ><span float-left>Taxa de Entrega: </span><span float-right class="ftc-color-primary">{{ deliveryFee | currency:"R$" }}</span></p>
+          <p class="ftc-divider"></p>
+          <p><span float-left>Total: </span><span float-right class="ftc-color-primary">{{ totalValue | currency:"R$" }}</span></p>
+        </ion-item>
+      </ion-card>
     </ion-row>
-
-    <ion-row margin-bottom class="ftc-card-checkout">
-      <ion-col class="ftc-image-checkout">
-        <img src="/assets/imgs/product.jpg">
-      </ion-col>
-      <ion-col padding-top class="ftc-card-content">
-        <b class="ftc-color-primary ftc-stylized-font">Nome do Produto</b>
-        <p>R$10,00</p>
-        <p>Descrição produto</p>
-      </ion-col>
-    </ion-row>
-
-    <ion-row margin-bottom class="ftc-card-checkout">
-      <ion-col class="ftc-image-checkout">
-        <img src="/assets/imgs/product.jpg">
-      </ion-col>
-      <ion-col padding-top class="ftc-card-content">
-        <b class="ftc-color-primary ftc-stylized-font">Nome do Produto</b>
-        <p>R$10,00</p>
-        <p>Descrição produto</p>
-      </ion-col>
-    </ion-row>
-
-  </ion-grid>
-
-  <ion-row class="ftc-card-total">
-    <ion-card>
-      <ion-item>
-        <p><span float-left>Subtotal: </span><span float-right class="ftc-color-primary">R$30,00</span></p>
-        <p ><span float-left>Taxa de Entrega: </span><span float-right class="ftc-color-primary">R$5,00</span></p>
-        <p class="ftc-divider"></p>
-        <p><span float-left>Total: </span><span float-right class="ftc-color-primary">R$35,00</span></p>
-      </ion-item>
-    </ion-card>
-  </ion-row>
-
-</ion-content>
+  
+  </ion-content>
+  

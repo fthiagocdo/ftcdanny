@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-buttons end padding-right *ngIf="currentUser.isLogged">
+    <ion-buttons end padding-right>
       <button ion-button icon-only (click)="goToCheckoutPage()">
         <ion-icon name="ftc-cart"></ion-icon>
       </button>
@@ -14,44 +14,22 @@
   
 <ion-content class="ftc-panel-background-color">
 
-  <ion-card class="ftc-card-order-history">
+  <ion-row class="ftc-card-total" *ngIf="showEmptyPageMessage">
+    <ion-card>
+      <p class="ftc-color-primary" style="padding: 20px; font-weight: bold; font-size: 2rem;" text-center>Você não possui pedidos realizados.</p>
+    </ion-card>
+  </ion-row>
+
+  <ion-card class="ftc-card-order-history" *ngFor="let item of orderHistories">
     <ion-card-content>
-      <p class="ftc-primary-color"><b>Número do pedido: </b>123456789</p>
-      <p class="ftc-primary-color"><b>Data: </b>21/10/2019 às 21:00</p>
-      <p class="ftc-primary-color"><b>Valor: </b>R$10,00</p>
-      <p class="ftc-primary-color"><b>Endereço de entrega: </b> Rua Aragão Assis, 202 - São Paulo/SP</p>
+      <p class="ftc-primary-color"><b>Número do pedido: </b>{{ UTILS.leftPad(item.order_number, '0', 6) }}</p>
+      <p class="ftc-primary-color"><b>Data: </b>{{ item.order_date }}</p>
+      <p class="ftc-primary-color"><b>Valor: </b>{{ item.total_value | currency:"R$" }}</p>
+      <p class="ftc-primary-color"><b>Endereço de entrega: </b>{{ item.delivery_address }}</p>
     </ion-card-content>
 
     <div style="padding: 5px 0px 5px 0px;">
-      <button ion-button small round class="ftc-center" (click)="orderDetail()">Ver pedido</button>
-    </div>
-
-  </ion-card>
-
-  <ion-card class="ftc-card-order-history">
-    <ion-card-content>
-      <p class="ftc-primary-color"><b>Número do pedido: </b>123456789</p>
-      <p class="ftc-primary-color"><b>Data: </b>21/10/2019 às 21:00</p>
-      <p class="ftc-primary-color"><b>Valor: </b>R$10,00</p>
-      <p class="ftc-primary-color"><b>Endereço de entrega: </b> Rua Aragão Assis, 202 - São Paulo/SP</p>
-    </ion-card-content>
-
-    <div style="padding: 5px 0px 5px 0px;">
-      <button ion-button small round class="ftc-center" (click)="orderDetail()">Ver pedido</button>
-    </div>
-
-  </ion-card>
-
-  <ion-card class="ftc-card-order-history">
-    <ion-card-content>
-      <p class="ftc-primary-color"><b>Número do pedido: </b>123456789</p>
-      <p class="ftc-primary-color"><b>Data: </b>21/10/2019 às 21:00</p>
-      <p class="ftc-primary-color"><b>Valor: </b>R$10,00</p>
-      <p class="ftc-primary-color"><b>Endereço de entrega: </b> Rua Aragão Assis, 202 - São Paulo/SP</p>
-    </ion-card-content>
-
-    <div style="padding: 5px 0px 5px 0px;">
-      <button ion-button small round class="ftc-center" (click)="orderDetail()">Ver pedido</button>
+      <button ion-button small round class="ftc-center" (click)="orderDetail(item.checkout_id, item.order_number)">Ver pedido</button>
     </div>
 
   </ion-card>

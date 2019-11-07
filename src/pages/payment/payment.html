@@ -11,17 +11,17 @@
 
   <ion-label color="primary" stacked>Número do Cartão</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="text" maxlength="100" [(ngModel)]="numCard"></ion-input>
+    <ion-input type="text" maxlength="16" [(ngModel)]="numCard"></ion-input>
   </ion-item>
 
   <ion-label color="primary" stacked>Data de Expiração</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-datetime displayFormat="MM/YYYY" yearValues="{{ yearValues }}" [(ngModel)]="expiryDate"></ion-datetime>
+    <ion-datetime displayFormat="MM/YYYY" pickerFormat="MM/YYYY" doneText="OK" cancelText="Cancelar" yearValues="{{ yearValues }}" [(ngModel)]="expiryDate"></ion-datetime>
   </ion-item>
 
   <ion-label color="primary" stacked>Código de Segurança</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="text" maxlength="100" [(ngModel)]="codSegCard"></ion-input>
+    <ion-input type="text" maxlength="3" [(ngModel)]="codSegCard"></ion-input>
   </ion-item>
 
   <p class="ftc-color-primary ftc-stylized-font ftc-payment-title"><b>Dados do proprietário do cartão</b></p>
@@ -35,12 +35,12 @@
 
   <ion-label color="primary" stacked>CPF</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-input type="number" maxlength="100" [(ngModel)]="cardHolderCPF" placeholder="apenas números"></ion-input>
+    <ion-input type="number" maxlength="11" [(ngModel)]="cardHolderCPF" placeholder="apenas números"></ion-input>
   </ion-item>
 
   <ion-label color="primary" stacked>Data de Nascimento</ion-label>
   <ion-item class="ftc-input-text">
-    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="cardHolderBirthDate"></ion-datetime>
+    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" doneText="OK" cancelText="Cancelar" [(ngModel)]="cardHolderBirthDate"></ion-datetime>
   </ion-item>
 
   <div padding-left padding-right padding-bottom><button ion-button round class="ftc-center ftc-single-button" (click)="confirmPayment()">Pagar {{ valuePayment | currency:"R$" }}</button></div>

@@ -10,6 +10,9 @@ import { OrderHistoryPage } from '../pages/order-history/order-history';
 import { ProfilePage } from '../pages/profile/profile';
 import { AuthProvider } from '../providers/auth/auth';
 import { PreloaderProvider } from '../providers/preloader/preloader';
+import { HttpServiceProvider } from '../providers/http-service/http-service';
+import { UtilsProvider } from '../providers/utils/utils';
+import { VarGlobalProvider } from '../providers/var-global/var-global';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,8 +29,13 @@ export class MyApp {
     public SPLASHSCREEN: SplashScreen,
     public PLATFORM: Platform,
     public AUTH : AuthProvider, 
-    public LOADER: PreloaderProvider) {
+    public LOADER: PreloaderProvider,
+    public HTTPSERVICE: HttpServiceProvider,
+    public UTILS: UtilsProvider,
+    public VARGLOBAL: VarGlobalProvider) {
+
       this.initializeApp();
+      this.loadConfigVars();
 
       this.AUTH.activeUser.subscribe((_user)=>{
         this.currentUser = _user;
@@ -53,6 +61,20 @@ export class MyApp {
       this.STATUSBAR.styleDefault();
       this.SPLASHSCREEN.hide();
     });
+  }
+
+  loadConfigVars() {
+    this.HTTPSERVICE.getConfigVars()
+      .subscribe(data => {
+        console.log(data);
+        if(!this.UTILS.isEmpty(data.url_pagseguro_direct_payment)){
+          this.VARGLOBAL.setUrlPagSeguroDirectPayment(data.url_pagseguro_direct_payment);
+        }
+      }, err => {
+        console.log(err);
+        this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
+        this.LOADER.hidePreloader();
+      });
   }
 
   openPage(page) {

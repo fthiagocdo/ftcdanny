@@ -46,6 +46,16 @@ export class UtilsProvider {
     return text.replace(/\D/g, '');
   }
 
+  leftPad(number, pad, length) {
+    let left = '';
+    
+    for (let index = 0; index < length; index++) {
+      left += pad;
+    }
+
+    return number.length >= length ? number :  (left+number).slice(-1*length);
+  }
+
   /*getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
   }

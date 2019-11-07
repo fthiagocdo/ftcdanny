@@ -171,7 +171,7 @@ export class LoginPage {
     this.LOADER.displayPreloader();
     let _class = this;
     
-    this.FACEBOOK.login(['email'])
+    this.FACEBOOK.login(['public_profile', 'email'])
       .then( res => {
         const facebookCredential = firebase.auth.FacebookAuthProvider
           .credential(res.authResponse.accessToken);

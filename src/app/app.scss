@@ -68,11 +68,11 @@ ion-icon {
 }
 
 /*----------- Alert Popup -----------*/
-.ftc-info-color{
+.ftc-info-color .alert-title {
     color: #CD0045 !important;
 }
 
-.ftc-error-color{
+.ftc-error-color .alert-title{
     color: red !important;
 }
 
@@ -247,8 +247,6 @@ ion-modal.my-popup {
 }
 
 .ftc-icon-delete {
-    display: flex; 
-    align-items: center; 
     padding: 0px; 
     max-width: 11%; 
 }

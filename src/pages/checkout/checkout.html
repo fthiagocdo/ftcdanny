@@ -34,11 +34,15 @@
       </ion-col>
       <ion-col padding-top class="ftc-card-content">
         <b class="ftc-color-primary ftc-stylized-font">{{ item.name }}</b>
-        <p>{{ item.price | currency:"R$" }}</p>
+        <p>{{ item.quantity }} x {{ item.price | currency:"R$" }}</p>
+        <p>Total: {{ item.total | currency:"R$" }}</p>
       </ion-col>
       <ion-col class="ftc-color-primary ftc-icon-delete">
-        <button ion-button icon-only clear (click)="removeItemCheckout(item.id)">
-          <ion-icon name="trash"></ion-icon>
+        <button ion-button icon-only clear style="margin-top: 25px;" (click)="openModalQuantity(item.id, item.quantity)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+        <button ion-button icon-only clear (click)="openModalQuantity(item.id, item.quantity)">
+          <ion-icon name="add-circle"></ion-icon>
         </button>
       </ion-col>
     </ion-row>

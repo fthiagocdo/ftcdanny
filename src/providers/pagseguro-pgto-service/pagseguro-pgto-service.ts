@@ -4,11 +4,6 @@ import { DatePipe } from '@angular/common';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import { VarGlobalProvider } from '../var-global/var-global';
 import 'rxjs/add/operator/map';
-import xml2js from 'xml2js';
-import { UtilsProvider } from '../utils/utils';
-import { HttpServiceProvider } from '../http-service/http-service';
-import { PreloaderProvider } from '../preloader/preloader';
-import { json } from 'body-parser';
 
 declare var PagSeguroDirectPayment: any;
 
@@ -22,10 +17,7 @@ export class PagseguroPgtoServiceProvider {
     private http: Http, 
     private storage: Storage, 
     private datepipe: DatePipe, 
-    private varGlobais: VarGlobalProvider,
-    private UTILS: UtilsProvider,
-    private HTTPSERVICE: HttpServiceProvider,
-    private LOADER: PreloaderProvider) {
+    private varGlobals: VarGlobalProvider) {
 
     }
 
@@ -38,19 +30,21 @@ export class PagseguroPgtoServiceProvider {
   getSession() {
     const requestOptions = new RequestOptions({headers: this.createHeader()});
 
-    return this.http.get(this.varGlobais.getUrlServiceApi()+'payments', requestOptions)
+    return this.http.get(this.varGlobals.getUrlServiceApi()+'payments', requestOptions)
       .map(res => {
         return res.json()
       });
   }
   
-  sendPaymentToServer() {
+  sendPaymentToServer(checkoutId, valuePayment) {
     const requestOptions = new RequestOptions({headers: this.createHeader()});
 
     let data = {
       dados_cpf: this.dados.cpf,
+      dados_ddd: this.dados.ddd,
       dados_telefone: this.dados.telefone,
       dados_email: this.dados.email,
+      dados_nascimento: this.dados.nascimento,
       dados_hashComprador: this.dados.hashComprador,
       dados_logradouro: this.dados.logradouro,
       dados_numero: this.dados.numero,
@@ -59,10 +53,12 @@ export class PagseguroPgtoServiceProvider {
       dados_cidade: this.dados.cidade,
       dados_estado: this.dados.estado,
       dados_hashCard: this.dados.hashCard,
-      dados_nome: this.dados.nome
+      dados_nome: this.dados.nome,
+      checkout_id: checkoutId,
+      value_payment: valuePayment
     };
 
-    return this.http.post(this.varGlobais.getUrlServiceApi()+'payments', data, requestOptions)
+    return this.http.post(this.varGlobals.getUrlServiceApi()+'payments', data, requestOptions)
       .map(res => {
         return res.json()
       });
@@ -74,21 +70,17 @@ export class PagseguroPgtoServiceProvider {
       this.credencial = new Credencial();
       this.dados = new Dados();
 
-      if (isSandBox) {
-        this.credencial.urlPagSeguroDirectPayment = "https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js";
-      } else {
-        this.credencial.urlPagSeguroDirectPayment = "https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js";
-      }
-
+      this.credencial.urlPagSeguroDirectPayment = this.varGlobals.getUrlPagSeguroDirectPayment();
+      console.log(this.varGlobals.getUrlPagSeguroDirectPayment());
       this.credencial.key = this.datepipe.transform(new Date(), "ddMMyyyyHHmmss");
       this.credencial.idSession = idSession;
       this.credencial.isSandBox = isSandBox;
       
-      if (!this.varGlobais.getStatusScript()) {
+      if (!this.varGlobals.getStatusScript()) {
         this.loadPagSeguroDirectPayment().then(() => {
           PagSeguroDirectPayment.setSessionId(this.credencial.idSession);
             this.storage.set('credencial', this.credencial);
-            this.varGlobais.setStatusScript(true);
+            this.varGlobals.setStatusScript(true);
             console.log("PagSeguroDirectPayment loaded!");
             console.log(PagSeguroDirectPayment);
             resolve(true);
@@ -109,6 +101,7 @@ export class PagseguroPgtoServiceProvider {
     });
   }
 
+  //Iniciar o processo de pagamento: pegar bandeira do cartão -> pegar número de parcelas sem juros -> criar hash do cartão de crédito
   initiatePayment() : Promise<any> { 
     return new Promise((resolve, reject) => {
       PagSeguroDirectPayment.setSessionId(this.credencial.idSession);
@@ -138,6 +131,7 @@ export class PagseguroPgtoServiceProvider {
     return new Promise((resolve, reject) => {
       //BUSCA O HASH DO COMPRADOR JUNTO A API DO PAGSEGURO
       this.dados.hashComprador = PagSeguroDirectPayment.getSenderHash();
+      console.log('Hash Comprador: '+this.dados.hashComprador);
 
       //CRIA O HASK DO CARTÃO DE CRÉDITO JUNTO A API DO PAGSEGURO
       PagSeguroDirectPayment.createCardToken({
@@ -148,9 +142,8 @@ export class PagseguroPgtoServiceProvider {
         expirationYear: this.dados.anoValidadeCard,
         brand: this.dados.bandCard,
         success: response => {
-
           this.dados.hashCard = response.card.token;
-          console.log(this.dados);
+          console.log("Token Card: "+response.card.token);
           resolve(true);
         },
         error: response => { 
@@ -160,7 +153,6 @@ export class PagseguroPgtoServiceProvider {
       });
     });
   }
-  
 }
 
 // CLASSE PARA ARMAZENAR NOSSOS DADOS DE ACESSO A CONTA DO PAGSEGURO
@@ -174,26 +166,25 @@ export class Credencial {
 // CLASSE PARA ARMAZENAR OS DADOS DA TRANSAÇÃO DE CHECKOUT NECESSÁRIOS PARA CONSUMIR A API
 export class Dados {
   public id: number;
-  public nome: string = 'Jose Comprador';
-  public ddd: string = '56273440';
-  public telefone: string = '56273440';
-  public email: string = 'comprador@sandbox.pagseguro.com.br';
-  public cpf: string = '22111944785';
-  public nascimento: string = '16/09/1987';
-  public logradouro: string = 'Av. Brig. Faria Lima';
-  public numero: string = '1384';
-  public bairro: string = 'Jardim Paulistano';
-  public cep: string = '01452002';
-  public cidade: string = 'Sao Paulo';
-  public estado: string = 'SP';
-  public numCard: string = '4012001037141112';
-  public mesValidadeCard: string = '12';
-  public anoValidadeCard: string = '2030';
-  public codSegCard: string = '123';
-  public hashComprador: string;        // preenchido dinamicamente
-  public bandCard: string;             // preenchido dinamicamente
-  public hashCard: string;             // preenchido dinamicamente
-  public parcelas: Array<Object> = []; // preenchido dinamicamente
+  public nome: string = '';
+  public ddd: string = '';
+  public telefone: string = '';
+  public email: string = '';
+  public cpf: string = '';
+  public nascimento: string = '';
+  public logradouro: string = '';
+  public numero: string = '';
+  public bairro: string = '';
+  public cep: string = '';
+  public cidade: string = '';
+  public estado: string = '';
+  public numCard: string = '';
+  public mesValidadeCard: string = '';
+  public anoValidadeCard: string = '';
+  public codSegCard: string = '';
+  public hashComprador: string = '';        
+  public bandCard: string = '';             
+  public hashCard: string = '';             
   constructor(obj?) {
     Object.assign(this, obj, {}, {});
   }

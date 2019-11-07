@@ -26,6 +26,8 @@ export class DeliveryInfoPage {
   city: string = '';
   state: string = '';
   valuePayment: string = '';
+  minPostcodeRange: number = 93300000;
+  maxPostcodeRange: number = 93800000;
 
   constructor(
     public NAVCTRL: NavController, 
@@ -84,6 +86,9 @@ export class DeliveryInfoPage {
     } else if(this.postcode != this.UTILS.justNumbers(this.postcode)) {
       valid = false;
       this.UTILS.showMessage("O campo 'CEP' deve possuir apenas números.", 'error');
+    } else if(Number(this.postcode) < this.minPostcodeRange || Number(this.postcode) > this.maxPostcodeRange) {
+      valid = false;
+      this.UTILS.showMessage("Desculpe, mas ainda não estamos realizando entregas no endereço informado.", 'error');
     } else if(this.street == '') {
       valid = false;
       this.UTILS.showMessage("O campo 'Rua' deve ser preenchido.", 'error');
@@ -109,9 +114,11 @@ export class DeliveryInfoPage {
       this.HTTPSERVICE.saveDeliveryInfo(
           this.checkoutId, 
           this.currentUser.name, 
+          this.ddd,
           this.phoneNumber, 
           this.postcode, 
           this.street, 
+          this.number,
           this.neighborhood, 
           this.city, 
           this.state

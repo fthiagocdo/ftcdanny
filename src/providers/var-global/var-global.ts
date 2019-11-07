@@ -5,6 +5,7 @@ import { Platform } from 'ionic-angular';
 export class VarGlobalProvider {
 
   status: boolean = false;
+  urlPagSeguroDirectPayment: string = '';
 
   constructor(
     public PLATFORM: Platform) { }
@@ -17,12 +18,20 @@ export class VarGlobalProvider {
     return this.status;
   }
 
+  setUrlPagSeguroDirectPayment(urlPagSeguroDirectPayment: string) {
+    this.urlPagSeguroDirectPayment = urlPagSeguroDirectPayment;
+  }
+
+  getUrlPagSeguroDirectPayment() {
+    return this.urlPagSeguroDirectPayment;
+  }
+
   getUrlServiceApi() {
-    if(this.PLATFORM.is('cordova')){
-      return 'http://superh24horas.onlinewebshop.net/api/';
-    }else{
+    //if(this.PLATFORM.is('cordova')) {
+      return 'http://superh24horas.com/api/';
+    /*} else {
       return 'http://localhost:8000/api/';
-    }
+    }*/
   }
 
 }

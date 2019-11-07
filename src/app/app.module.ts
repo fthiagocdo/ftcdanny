@@ -19,6 +19,7 @@ import { PaymentPage } from '../pages/payment/payment';
 import { OrderHistoryPage } from '../pages/order-history/order-history';
 import { OrderDetailPage } from '../pages/order-detail/order-detail';
 import { ProfilePage } from '../pages/profile/profile';
+import { QuantityItemPage } from '../pages/quantity-item/quantity-item';
 
 import { UtilsProvider } from '../providers/utils/utils';
 import { AuthProvider } from '../providers/auth/auth';
@@ -46,6 +47,7 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
+    QuantityItemPage,
     LoginPage,
     SignUpPage,
     RecoverPasswordPage,
@@ -68,6 +70,7 @@ export const firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,
+    QuantityItemPage,
     LoginPage,
     SignUpPage,
     RecoverPasswordPage,

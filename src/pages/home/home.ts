@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
 import { PreloaderProvider } from '../../providers/preloader/preloader';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -7,6 +7,8 @@ import { UtilsProvider } from '../../providers/utils/utils';
 import { CheckoutPage } from '../checkout/checkout';
 import { Storage } from '@ionic/storage';
 import { PagseguroPgtoServiceProvider } from '../../providers/pagseguro-pgto-service/pagseguro-pgto-service';
+import { LoginPage } from '../login/login';
+import { QuantityItemPage } from '../quantity-item/quantity-item';
 
 @IonicPage()
 @Component({
@@ -28,7 +30,9 @@ export class HomePage {
     public UTILS: UtilsProvider,
     public PLATFORM: Platform,
     public STORAGE: Storage,
-    public PAGSEG: PagseguroPgtoServiceProvider) {
+    public PAGSEG: PagseguroPgtoServiceProvider,
+    public ALERTCTRL: AlertController,
+    public MODALCTRL: ModalController) {
       this.AUTH.activeUser.subscribe((_user)=>{
         this.currentUser = _user;
       });
@@ -41,50 +45,7 @@ export class HomePage {
       this.LOADER.hidePreloader();
     }
     
-    /*this.PAGSEG.getSession()
-      .subscribe(data => { 
-        console.log(data);
-        this.PAGSEG.init(data, true)
-          .then(data => { 
-            console.log(data);
-            this.LOADER.hidePreloader();
-          }, err => {
-            console.log(err);
-            this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
-            this.LOADER.hidePreloader();
-          }
-        );
-      }, err => {
-        console.log(err);
-        this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
-        this.LOADER.hidePreloader();
-      }
-    );*/
-    
     this.getProducts();
-  }
-
-  executarMetodo() {
-    this.LOADER.displayPreloader();
-    this.PAGSEG.initiatePayment()
-      .then(data => { 
-        console.log(data);
-        this.PAGSEG.sendPaymentToServer()
-          .subscribe(data => { 
-            console.log(data);
-            this.LOADER.hidePreloader();
-          }, err => {
-            console.log(err);
-            this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
-            this.LOADER.hidePreloader();
-          }
-        );
-      }, err => {
-        console.log(err);
-        this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
-        this.LOADER.hidePreloader();
-      }
-    );
   }
 
   getProducts() {
@@ -135,24 +96,57 @@ export class HomePage {
     this.getProducts();
   }
 
-  addItemCheckout(productId) {
+  openModalQuantity(productId) {
     if(this.currentUser.isLogged) {
-      this.LOADER.displayPreloader();
-      let _class = this;
-
-      this.HTTPSERVICE.addItemCheckout(this.currentUser.id, productId)
-        .subscribe(data => { 
-          _class.UTILS.showMessage('Item adicionado ao seu carrinho de compras.', 'info');
-          this.LOADER.hidePreloader();
-        }, err => {
-          console.log(err);
-          _class.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
+      let modalQuantity = this.MODALCTRL.create(QuantityItemPage, {
+        showBackdrop: true, 
+        enableBackdropDismiss: true,
+        productId: productId,
+        userId: this.currentUser.id,
+        quantity: 1
+      });
+      modalQuantity.onDidDismiss(data => {
+        if(data && data.quantity > 0){
+          this.addItemCheckout(productId, data.quantity);
+        } else {
           this.LOADER.hidePreloader();
         }
-      );
+      });
+      modalQuantity.present();
     } else {
-      this.UTILS.showMessage('Por favor, realize login para executar esta ação.', 'info');
+      this.goToLoginPage();
     }
+  }
+
+  addItemCheckout(productId, quantity) {
+    this.LOADER.displayPreloader();
+    
+    this.HTTPSERVICE.addItemCheckout(this.currentUser.id, productId, quantity)
+      .subscribe(data => { 
+        this.UTILS.showMessage('Item adicionado ao seu carrinho de compras.', 'info');
+        this.LOADER.hidePreloader();
+      }, err => {
+        console.log(err);
+        this.UTILS.showMessage('Não foi possível completar a requisição. Por favor, entre em contato com um administrador.', 'error');
+        this.LOADER.hidePreloader();
+      }
+    );
+  }
+
+  goToLoginPage() {
+    let alert = this.ALERTCTRL.create({
+      title: 'Por favor, realize login para executar esta ação.',
+      buttons: [{
+        text: 'Login',
+        cssClass: 'ftc-alert-info-button ftc-modal-button',
+        handler: () => {
+          this.LOADER.displayPreloader;
+          this.NAVCTRL.push(LoginPage);
+        },
+      }],
+      cssClass: 'ftc-info-color'
+    });
+    alert.present();
   }
 
   goToCheckoutPage() {

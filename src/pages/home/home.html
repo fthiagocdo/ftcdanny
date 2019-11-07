@@ -16,7 +16,7 @@
 
   <ion-item class="ftc-input-text">
     <ion-input placeholder="O que você está procurando?" [(ngModel)]="searchKey"></ion-input>
-    <button ion-button clear margin-bottom type="button" item-right (click)="executarMetodo()">
+    <button ion-button clear margin-bottom type="button" item-right (click)="searchProducts()">
       <ion-icon name="search"></ion-icon>
     </button>
   </ion-item>
@@ -41,7 +41,7 @@
             <p>{{ p.description }}</p>
           </ion-card-content>
           
-          <div style="padding: 5px 0px 5px 0px;"><button ion-button small round class="ftc-center" (click)="addItemCheckout(p.id)">Adicionar</button></div>
+          <div style="padding: 5px 0px 5px 0px;"><button ion-button small round class="ftc-center" (click)="openModalQuantity(p.id)">Adicionar</button></div>
         </ion-card>
       </ion-col>
     </ion-row>

@@ -1,0 +1,19 @@
+<div class="modal-wrapper">
+</div>
+<ion-content class="ftc-popup-content">
+  <div class="ftc-quantity-title ftc-stylized-font ftc-color-primary">
+      Informe a quantidade:
+  </div>
+  <div class="ftc-quantity ftc-color-primary">
+    <button ion-button icon-only clear (click)="minusItem()">
+      <ion-icon name="remove-circle"></ion-icon>
+    </button>
+    <span class="ftc-quantity-number ftc-stylized-font">{{ quantity }}</span>
+    <button ion-button icon-only clear (click)="plusItem()">
+      <ion-icon name="add-circle"></ion-icon>
+    </button>
+  </div>
+  <div style="padding: 0px 3px 0px 3px;">
+    <button ion-button full round (click)="confirm()" class="ftc-center">Confirmar</button>
+  </div>
+</ion-content>
